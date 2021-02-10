@@ -61,11 +61,7 @@
 
     <!-- 차트 -->
     <div id="chart_div"></div>
-        <input type=text placeholder="내 이름은?" name="name" id="stu_name"></input>
-        <button class="btn btn-secondary btn-sm" name="atplus" type="submit" id="at_btn">출석 + 1</button>
-        <button class="btn btn-secondary btn-sm" name="abplus" type="submit">결석 + 1</button>
-    <div>
-    </div>
+        
 </div>
 {% endblock %}
 
@@ -96,7 +92,7 @@
         data.addColumn({type: 'string', role: 'annotation'});
         data.addRows( cus_data );
             var options = {
-            title: '인공지능 C반 출석 랭킹', height: 600,
+            title: '인공지능 C반 {{what}} 랭킹', height: 600,
             colors: ['#00c292', '#ffab91'],
             chartArea: {
                 width: '70%'

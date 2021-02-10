@@ -132,7 +132,6 @@ def ranking(request):
     stu_list = [ ]
     for x in c:
         stu_list.append([x.user_name, x.user_attend, x.user_absent, "", ""])
-    stu_list[0][4] = '1등'
     # 출석 1등 (복수) 뽑아내기
     most_att = c[0].user_attend
     plural = len(list(StuProfile.objects.filter(user_attend = most_att)))
@@ -149,11 +148,12 @@ def ranking(request):
     most_abs = abs_list[0].user_absent
     plural2 = len(list(StuProfile.objects.filter(user_absent = most_abs)))
     if plural2 == 1:
-        first_one2 = ab_stu_list[0]
+        first_one2 = ab_stu_list[0][0]
     elif plural2 !=1 :
         first_one2 = str(ab_stu_list[0][0]) + ' 외 ' + str(plural2-1) + '명'
 
     context = { 'tmp_table' : stu_list, 'attend_1' : first_one, 'absent_1' : first_one2}
+    context['what'] = '출석'
     return render(request, 'rank.html', context)
 
 
@@ -181,6 +181,7 @@ def abrank(request):
         first_one = str(c[0]) + ' 외 ' + str(plural-1) + '명'
         
     context = {'tmp_table' : stu_list, 'absent_1' : first_one2, 'attend_1' : first_one}
+    context['what'] = '결석'
     return render(request, 'rank.html', context)
 
 
