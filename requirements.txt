@@ -1,3 +1,4 @@
+asgiref @ file:///tmp/build/80754af9/asgiref_1605055780383/work
 astroid==2.4.2
 autopep8==1.5.4
 certifi==2020.12.5
