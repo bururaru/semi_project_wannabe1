@@ -1,5 +1,5 @@
 
-{% extends 'base2.html' %}
+{% extends 'base.html' %}
 {% load boardapp_filter %}
 {% block content %}
 {% load static %}
@@ -108,7 +108,7 @@
     <input type="hidden" id="page" name="page" value="{{ page }}">
     <input type="hidden" id="so" name="so" value="{{ so }}">
 </form>
-{% endblock %}
+
 {% block script %}
 <script
   src="https://code.jquery.com/jquery-3.5.1.js"
@@ -133,4 +133,5 @@ $(document).ready(function(){
     });
 });
 </script>
+{% endblock %}
 {% endblock %}

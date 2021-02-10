@@ -31,7 +31,7 @@ def index(request): # 질문 목록 출력
     paginator = Paginator(question_list, 10)  # 페이지당 10개씩 보여주기
     page_obj = paginator.get_page(page)
     context = {'question_list': page_obj, 'page': page, 'kw': kw, 'so': so}
-    return render(request, 'question_list2.html', context)
+    return render(request, 'question_list.html', context)
 
 def detail(request, question_id): # 내용출력
     question = get_object_or_404(Question, pk=question_id)
@@ -256,8 +256,8 @@ order_by 함수는 조회한 데이터를 특정 속성으로 정렬하며,
 '-create_date'는 - 기호가 앞에 붙어 있으므로 작성일시의
  역순을 의미한다.
 render 함수는 context에 있는 Question 모델 데이터 question_list를 
-boardapp/question_list2.html 파일에 적용하여 HTML 코드로 변환한다. 
-그리고 장고에서는 이런 파일(boardapp/question_list2.html)을 템플릿이라 부른다. 
+boardapp/question_list.html 파일에 적용하여 HTML 코드로 변환한다. 
+그리고 장고에서는 이런 파일(boardapp/question_list.html)을 템플릿이라 부른다. 
 템플릿은 장고의 태그를 추가로 사용할 수 있는 HTML 파일이라 생각하면 된다. 
 템플릿에 대해서는 바로 다음 실습 과정을 통해 자연스럽게 알아보겠다.
 '''
