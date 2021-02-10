@@ -121,6 +121,7 @@ def modify_form(request) :
 
     return render(request, 'profile_modify2.html', context)
 
+# ㄻㄴㅇㄹㅇㄹ
 #---------------------------------------------------------
 def profile_modify(request) :
 
