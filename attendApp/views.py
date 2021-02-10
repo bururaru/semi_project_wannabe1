@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect
 import datetime
 from .models import *
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+from stuApp.models import StuProfile
 from django.http import JsonResponse
 
 # Create your views here.
@@ -123,7 +127,7 @@ def custom_del(request):
 
 
 def ranking(request):
-    b = StudentUser.objects.order_by('-user_attend')   #출석순 내림차순 정렬
+    b = StuProfile.objects.order_by('-user_attend')   #출석순 내림차순 정렬
     c = list(b)
     stu_list = [ ]
     for x in c:
@@ -131,43 +135,43 @@ def ranking(request):
     stu_list[0][4] = '1등'
     # 출석 1등 (복수) 뽑아내기
     most_att = c[0].user_attend
-    plural = len(list(StudentUser.objects.filter(user_attend = most_att)))
+    plural = len(list(StuProfile.objects.filter(user_attend = most_att)))
     if plural == 1:
         first_one = stu_list[0][0]
     else :
         first_one = str(stu_list[0][0]) + ' 외 ' + str(plural-1) + '명'
 
-    abs = StudentUser.objects.order_by('-user_absent')
+    abs = StuProfile.objects.order_by('-user_absent')
     abs_list = list(abs)
     most_abs = abs_list[0].user_absent
-    plural2 = len(list(StudentUser.objects.filter(user_absent = most_abs)))
+    plural2 = len(list(StuProfile.objects.filter(user_absent = most_abs)))
     if plural2 == 1:
         first_one2 = abs_list[0]
     else :
-        first_one2 = str(abs_list[0][0]) + ' 외 ' + str(plural-1) + '명'
+        first_one2 = str(abs_list[0][0]) + ' 외 ' + str(plural2-1) + '명'
 
     context = { 'tmp_table' : stu_list, 'attend_1' : first_one, 'absent_1' : first_one2}
     return render(request, 'rank.html', context)
 
 
 def abrank(request):
-    abs = StudentUser.objects.order_by('-user_absent')   #출석순 내림차순 정렬
+    abs = StuProfile.objects.order_by('-user_absent')   #출석순 내림차순 정렬
     abs_list = list(abs)
     stu_list = [ ]
     for x in abs_list:
         stu_list.append([x.user_name, x.user_attend, x.user_absent, "", ""])
     stu_list[0][4] = '1등'
     most_abs = abs_list[0].user_absent
-    plural2 = len(list(StudentUser.objects.filter(user_absent = most_abs)))
+    plural2 = len(list(StuProfile.objects.filter(user_absent = most_abs)))
     if plural2 == 1:
         first_one2 = stu_list[0][0]
     else :
-        first_one2 = str(stu_list[0][0]) + ' 외 ' + str(plural-1) + '명'
+        first_one2 = str(stu_list[0][0]) + ' 외 ' + str(plural2-1) + '명'
 
-    b = StudentUser.objects.order_by('-user_attend')   #출석순 내림차순 정렬
+    b = StuProfile.objects.order_by('-user_attend')   #출석순 내림차순 정렬
     c = list(b)
     most_att = c[0].user_attend
-    plural = len(list(StudentUser.objects.filter(user_attend = most_att)))
+    plural = len(list(StuProfile.objects.filter(user_attend = most_att)))
     if plural == 1:
         first_one = c[0]
     else :
