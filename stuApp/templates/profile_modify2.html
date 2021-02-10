@@ -1,0 +1,70 @@
+{% load static %}
+
+<!-- Main content -->
+<section class="content">
+   <div class="row">
+      <!-- left column -->
+      <div class="col-md-12">
+         <!-- general form elements -->
+         <div class="box box-primary">
+            <div class="box-header">
+               <h3 class="box-title">MODIFY Profile</h3>
+            </div>
+            <!-- /.box-header -->
+
+<form id="modifyFrm" role="form" method="post" action="{% url 'profile_modify' %}">
+   {% csrf_token %}
+	<input type="hidden" name="id" value="{{readmodi.id}}" />
+   <div class="box-body">
+	<div class="form-group">
+		<label for="exampleInputEmail1">My id</label> <input type="text"
+			name='user_id' class="form-control" value="{{readmodi.user_id}}"
+			readonly="readonly">
+	</div>
+	<div class="form-group">
+		<label for="exampleInputPassword1">bio</label>
+		<textarea class="form-control" name="mybio2" rows="3">{{readmodi.bio}}</textarea>
+	</div>
+	<div class="form-group">
+		<label for="exampleInputEmail1">Contact</label> <input type="text"
+			name="contact" class="form-control" value="{{readmodi.contact}}">
+	</div>
+	<div class="form-group">
+		<label for="exampleInputEmail1">My location</label> <input type="text"
+			name="location" class="form-control" value="{{readmodi.location}}">
+	</div>
+</div>
+   <!-- /.box-body -->
+</form>
+
+
+<div class="box-footer">
+   <button type="submit" class="btn btn-primary">MODIFY</button>
+   <button type="submit" class="btn btn-warning">CANCEL</button>
+</div>
+
+			 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+   $(document).ready(function() {
+      $('.btn-warning').click(function (){
+         location.href='../profile_list'
+      })
+      $('.btn-primary').click(function (){
+         alert('프로필 수정이 완료되었습니다.')
+         $('#modifyFrm').submit()
+      })
+   });
+</script>
+
+         </div>
+         <!-- /.box -->
+      </div>
+      <!--/.col (left) -->
+
+   </div>
+   <!-- /.row -->
+</section>
+<!-- /.content -->
+</div>
+<!-- /.content-wrapper -->

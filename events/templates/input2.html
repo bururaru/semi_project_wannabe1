@@ -1,0 +1,18 @@
+
+{% extends 'base2.html' %}
+{% block content %}
+
+{% load static %}
+<div class="container">
+    <br>
+    <form method="POST">
+    {% csrf_token %}
+    <div class="form form-table">
+        {{ form }}
+        <button type="submit" class="btn btn-info right"> Submit </button>
+        <button type="button" class="btn btn-danger" id="remoBtn"> Remove </button>
+    </div>
+    </form>
+
+</div>
+{% endblock %}

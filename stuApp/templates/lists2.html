@@ -1,0 +1,41 @@
+{% load static %}
+
+<section class="content">
+	<div class="row">
+		<!-- left column -->
+		<div class="col-md-12">
+			<!-- general form elements -->
+            <!-- general form elements -->
+			<div class='box'>
+				<div class="box-header with-border">
+					<h3 class="box-title">Member List</h3>
+				</div>
+			</div>
+
+          <div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title">LIST ALL PAGE</h3>
+				</div>
+				<div class="box-body">
+
+{% if readusers %}
+<table class="table table-bordered">
+	<tr>
+		<th style="width: 10px">BNO</th>
+		<th>ID</th>
+		<th>BIO</th>
+	</tr>
+
+	<tbody id="tbody">
+	{% for readuser in readusers %}
+	<tr>
+		<td>{{readuser.id}}</td>
+		<td><a href="{% url 'profile_read' id=readuser.id %}">{{readuser.user_name}}</td>
+		<td>{{readuser.bio}}</td>
+	</tr>
+    {% endfor %}
+	</tbody>
+</table>
+{% else %}
+					<p>데이터가 존재하지 않습니다.</p>
+{% endif %}

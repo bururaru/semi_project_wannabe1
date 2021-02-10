@@ -1,0 +1,94 @@
+
+{% load static %}
+
+{% include 'header.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard with YSSIM</title>
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <link href="{% static '/resources/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <link href="{% static '/resources/dist/css/AdminLTE.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static '/resources/dist/css/skins/_all-skins.min.css' %}" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<header>
+    <div class="navbar navbar-dark bg-dark shadow-sm mb-3">
+        <div class="container d-flex justify-content-between">
+            <a href="/" class="navbar-brand d-flex align-items-center">
+                <strong>Class board</strong>
+            </a>
+        </div>
+    </div>
+</header>
+
+{% if boards %}
+<div class="container">
+	<table class="table">
+		<thead class="thead-light">
+		<tr class="text-center">
+			<th style="width: 10px">No.</th>
+			<th>ClassType</th>
+            <th>Title</th>
+			<th>Writer</th>
+			<th>Regdate</th>
+		</tr>
+		</thead>
+		<tbody>
+		{% for board in boards %}
+		<tr class="text-center">
+			<td>{{board.id}}</td>
+            <td>{{board.classType}}</td>
+			<td><a href="{% url 'read' id=board.id %}">{{board.title}}</a></td>
+			<td>{{board.writer}}</td>
+			<td>{{board.regdate}}</td>
+		</tr>
+    	{% endfor %}
+		</tbody>
+	</table>
+{% else %}
+    <div class="container">
+    <p> 데이터가 존재하지 않습니다 </p>
+{% endif %}
+<div class="container">
+<div class="row">
+    <div class="col-auto mr-auto"></div>
+        <div class="col-auto">
+            <a class="btn btn-primary" href="{% url 'postForm' %}" role="button">글쓰기</a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+<div class='box-body'>
+    <select id="searchType">
+        <option value="title">제목</option>
+        <option value="writer">작성자</option>
+    </select>
+    <input type="text" id="searchKeyword">
+    <button id='searchBtn'>Search Board</button>
+    <button id='newBtn'>New Board</button>
+</div>
+
+</body>
+
+<script>
+    $(document).ready(function () {
+	    $('#newBtn').click(function () {
+	    	location.href = '../postForm'
+		})
+    })
+</script>
+
+</html>
+
+{% endblock %}
+{% include 'footer.html' %}
