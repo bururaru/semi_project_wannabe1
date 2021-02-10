@@ -51,14 +51,14 @@
 
 <div class="box-footer">
 	<button type="button" class="btn btn-primary" id="ListBtn">목록 보기</button>
-	{% if id == readpro.id %}
+	{% if id == readpro2.user_name %}
 	<button type="button" class="btn btn-primary" id="ModifyBtn">수정하기</button>
 	{% endif %}
 </div>
 
 <form method="post" id="modifyFrm">
 	{% csrf_token %}
-	<input type="hidden" name="id" value="{{readpro.name}}">
+	<input type="hidden" name="id" value="{{readpro2.user_name}}">
 </form>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
