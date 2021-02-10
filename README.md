@@ -5,3 +5,5 @@
 - 안녕하세요ㅔ 이창민입니다.
 - pull check
 - 리얼 마지막입니다..
+- gyuri branch
+- 
