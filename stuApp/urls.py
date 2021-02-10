@@ -3,6 +3,8 @@ from django.contrib import admin
 from django.urls import path, include
 from stuApp import views
 
+app_name= 'stuApp'
+
 urlpatterns = [
     path('index/', views.index, name='index'),
     path('register/', views.register, name='register2'),
