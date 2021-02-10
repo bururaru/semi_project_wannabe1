@@ -5,6 +5,10 @@
     .spec_btn {
         margin: 2px;
         color: black;
+        border-radius: 10px;
+        padding: 5 10 5 10;
+        font-size: 11px;
+        font-weight: 600;   
     }
 </style>
 {% endblock %}
@@ -15,7 +19,7 @@
 {% block content1 %}
 <div class="content">
     <div>
-        {{len}}
+        오늘은 {{len|date:"Y.m.d"}}
     </div>
 
     <!-- <button class="btn btn-secondary btn-sm">이전 일정 숨기기</button>

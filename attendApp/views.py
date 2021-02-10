@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect
 import datetime
 from .models import *
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+from stuApp.models import StuProfile
 from django.http import JsonResponse
 
 # Create your views here.
@@ -123,57 +127,61 @@ def custom_del(request):
 
 
 def ranking(request):
-    b = StudentUser.objects.order_by('-user_attend')   #출석순 내림차순 정렬
+    b = StuProfile.objects.order_by('-user_attend')   #출석순 내림차순 정렬
     c = list(b)
     stu_list = [ ]
     for x in c:
         stu_list.append([x.user_name, x.user_attend, x.user_absent, "", ""])
-    stu_list[0][4] = '1등'
     # 출석 1등 (복수) 뽑아내기
     most_att = c[0].user_attend
-    plural = len(list(StudentUser.objects.filter(user_attend = most_att)))
+    plural = len(list(StuProfile.objects.filter(user_attend = most_att)))
     if plural == 1:
         first_one = stu_list[0][0]
-    else :
+    elif plural !=1 :
         first_one = str(stu_list[0][0]) + ' 외 ' + str(plural-1) + '명'
 
-    abs = StudentUser.objects.order_by('-user_absent')
+    abs = StuProfile.objects.order_by('-user_absent')
     abs_list = list(abs)
+    ab_stu_list = []
+    for y in abs_list:
+        ab_stu_list.append([y.user_name, y.user_attend, y.user_absent, "", ""])
     most_abs = abs_list[0].user_absent
-    plural2 = len(list(StudentUser.objects.filter(user_absent = most_abs)))
+    plural2 = len(list(StuProfile.objects.filter(user_absent = most_abs)))
     if plural2 == 1:
-        first_one2 = abs_list[0]
-    else :
-        first_one2 = str(abs_list[0][0]) + ' 외 ' + str(plural-1) + '명'
+        first_one2 = ab_stu_list[0][0]
+    elif plural2 !=1 :
+        first_one2 = str(ab_stu_list[0][0]) + ' 외 ' + str(plural2-1) + '명'
 
     context = { 'tmp_table' : stu_list, 'attend_1' : first_one, 'absent_1' : first_one2}
+    context['what'] = '출석'
     return render(request, 'rank.html', context)
 
 
 def abrank(request):
-    abs = StudentUser.objects.order_by('-user_absent')   #출석순 내림차순 정렬
+    abs = StuProfile.objects.order_by('-user_absent')   #출석순 내림차순 정렬
     abs_list = list(abs)
     stu_list = [ ]
     for x in abs_list:
         stu_list.append([x.user_name, x.user_attend, x.user_absent, "", ""])
     stu_list[0][4] = '1등'
     most_abs = abs_list[0].user_absent
-    plural2 = len(list(StudentUser.objects.filter(user_absent = most_abs)))
+    plural2 = len(list(StuProfile.objects.filter(user_absent = most_abs)))
     if plural2 == 1:
         first_one2 = stu_list[0][0]
     else :
-        first_one2 = str(stu_list[0][0]) + ' 외 ' + str(plural-1) + '명'
+        first_one2 = str(stu_list[0][0]) + ' 외 ' + str(plural2-1) + '명'
 
-    b = StudentUser.objects.order_by('-user_attend')   #출석순 내림차순 정렬
+    b = StuProfile.objects.order_by('-user_attend')   #출석순 내림차순 정렬
     c = list(b)
     most_att = c[0].user_attend
-    plural = len(list(StudentUser.objects.filter(user_attend = most_att)))
+    plural = len(list(StuProfile.objects.filter(user_attend = most_att)))
     if plural == 1:
         first_one = c[0]
     else :
         first_one = str(c[0]) + ' 외 ' + str(plural-1) + '명'
         
     context = {'tmp_table' : stu_list, 'absent_1' : first_one2, 'attend_1' : first_one}
+    context['what'] = '결석'
     return render(request, 'rank.html', context)
 
 
@@ -189,10 +197,10 @@ def curri(request):
     if ab_date in range(201, 219):
         subject_name = '세미 프로젝트'
         pro_startdate = datetime.datetime(2021, 2, 1, 9, 0, 0, 1  ) #.000001초 단위 만들기 위해 오차 만들기
-        pro_enddate = datetime.datetime(2021, 2, 19, 18, 0, 0, 0)
+        pro_enddate = datetime.datetime(2021, 2, 16, 18, 0, 0, 0)
     elif ab_date in range(220, 402 ):
         subject_name = 'AI 활용을 위한 딥러닝'
-        pro_startdate = datetime.datetime(2021, 2, 19, 18, 0, 0, 1  ) #.000001초 단위 만들기 위해 오차 만들기
+        pro_startdate = datetime.datetime(2021, 2, 16, 18, 0, 0, 1  ) #.000001초 단위 만들기 위해 오차 만들기
         pro_enddate = datetime.datetime(2021, 4, 2, 18, 0, 0, 0)
     elif ab_date in range(403, 423):
         subject_name = 'AI 프로젝트'
@@ -211,7 +219,10 @@ def curri(request):
     #진행도 측정 부분 : 모듈로 만들어야 할것
 
     ojb = TotalCurriculum.objects.get(subject_name=subject_name)
-    ojb.subject_comp = pro_percentage
+    if pro_percentage >= 100:
+        ojb.subject_comp = 100
+    else:
+        ojb.subject_comp = pro_percentage
     ojb.save()
     rn = datetime.date.today()
     past = TotalCurriculum.objects.filter(subject_date__lte=rn)
