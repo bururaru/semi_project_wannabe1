@@ -39,7 +39,7 @@
                     </a>
                 </div>
                 <div class="login-form">
-                    <form action="{% url 'login2' %}" method="post">
+                    <form action="{% url 'stuApp:login2' %}" method="post">
                         {% csrf_token %}
                         <div class="form-group">
                             <label>아이디</label>
