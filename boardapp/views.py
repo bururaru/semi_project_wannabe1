@@ -39,7 +39,7 @@ def detail(request, question_id): # 내용출력
     return render(request, 'question_detail2.html', context)
 
 
-@login_required(login_url='common:login2')
+@login_required(login_url='stuApp:index')
 def question_create(request): # 질문등록
     if request.method == 'POST':
         form = QuestionForm(request.POST)
@@ -54,7 +54,7 @@ def question_create(request): # 질문등록
     context = {'form': form}
     return render(request, 'question_form2.html', context)
 
-@login_required(login_url='common:login2')
+@login_required(login_url='stuApp:index')
 def question_modify(request, question_id): # 질문 수정
     question = get_object_or_404(Question, pk=question_id)
     if request.user != question.author:
@@ -74,7 +74,7 @@ def question_modify(request, question_id): # 질문 수정
     context = {'form': form}
     return render(request, 'question_form2.html', context)
 
-@login_required(login_url='common:login2')
+@login_required(login_url='stuApp:index')
 def question_delete(request, question_id): # 질문삭제
     question = get_object_or_404(Question, pk=question_id)
     if request.user != question.author:
@@ -83,7 +83,7 @@ def question_delete(request, question_id): # 질문삭제
     question.delete()
     return redirect('boardapp:index')
 
-@login_required(login_url='common:login2')
+@login_required(login_url='stuApp:index')
 def answer_create(request, question_id): # 답변등록
     question = get_object_or_404(Question, pk=question_id)
     if request.method == "POST":
@@ -101,7 +101,7 @@ def answer_create(request, question_id): # 답변등록
     context = {'question': question, 'form': form}
     return render(request, 'question_detail2.html', context)
 
-@login_required(login_url='common:login2')
+@login_required(login_url='stuApp:index')
 def answer_modify(request, answer_id): # 답변수정
     answer = get_object_or_404(Answer, pk=answer_id)
     if request.user != answer.author:
@@ -122,7 +122,7 @@ def answer_modify(request, answer_id): # 답변수정
     context = {'answer': answer, 'form': form}
     return render(request, 'answer_form2.html', context)
 
-@login_required(login_url='common:login2')
+@login_required(login_url='stuApp:index')
 def answer_delete(request, answer_id): # 답변삭제
     answer = get_object_or_404(Answer, pk=answer_id)
     if request.user != answer.author:
@@ -131,7 +131,7 @@ def answer_delete(request, answer_id): # 답변삭제
         answer.delete()
     return redirect('boardapp:detail', question_id=answer.question.id)
 
-@login_required(login_url='common:login2')
+@login_required(login_url='stuApp:index')
 def comment_create_question(request, question_id): # 질문 댓글 등록
     question = get_object_or_404(Question, pk=question_id)
     if request.method == "POST":
@@ -149,7 +149,7 @@ def comment_create_question(request, question_id): # 질문 댓글 등록
     context = {'form': form}
     return render(request, 'comment_form2.html', context)
 
-@login_required(login_url='common:login2')
+@login_required(login_url='stuApp:index')
 def comment_modify_question(request, comment_id): # 질문댓글수정
     comment = get_object_or_404(Comment, pk=comment_id)
     if request.user != comment.author:
@@ -170,7 +170,7 @@ def comment_modify_question(request, comment_id): # 질문댓글수정
     context = {'form': form}
     return render(request, 'bcomment_form2.html', context)
 
-@login_required(login_url='common:login2') #질문댓글삭제
+@login_required(login_url='stuApp:index') #질문댓글삭제
 def comment_delete_question(request, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id)
     if request.user != comment.author:
@@ -181,7 +181,7 @@ def comment_delete_question(request, comment_id):
     return redirect('board:detail', question_id=comment.question_id)
 
 
-@login_required(login_url='common:login2')
+@login_required(login_url='stuApp:index')
 def comment_create_answer(request, answer_id): #답글 댓글등록
     answer = get_object_or_404(Answer, pk=answer_id)
     if request.method == "POST":
@@ -200,7 +200,7 @@ def comment_create_answer(request, answer_id): #답글 댓글등록
     return render(request, 'comment_form2.html', context)
 
 
-@login_required(login_url='common:login2')
+@login_required(login_url='stuApp:index')
 def comment_modify_answer(request, comment_id): #답글 댓글수정
     comment = get_object_or_404(Comment, pk=comment_id)
     if request.user != comment.author:
@@ -222,7 +222,7 @@ def comment_modify_answer(request, comment_id): #답글 댓글수정
     return render(request, 'comment_form2.html', context)
 
 
-@login_required(login_url='common:login2')
+@login_required(login_url='stuApp:index')
 def comment_delete_answer(request, comment_id): #답글 댓글삭제
     comment = get_object_or_404(Comment, pk=comment_id)
     if request.user != comment.author:
@@ -232,7 +232,7 @@ def comment_delete_answer(request, comment_id): #답글 댓글삭제
         comment.delete()
     return redirect('boardapp:detail', question_id=comment.answer.question.id)
 
-@login_required(login_url='common:login2')
+@login_required(login_url='stuApp:index')
 def vote_question(request, question_id): # 질문추천등록
     question = get_object_or_404(Question, pk=question_id)
     if request.user == question.author:
@@ -241,7 +241,7 @@ def vote_question(request, question_id): # 질문추천등록
         question.voter.add(request.user)
     return redirect('boardapp:detail', question_id=question.id)
 
-@login_required(login_url='common:login2')
+@login_required(login_url='stuApp:index')
 def vote_answer(request, answer_id): #답변 추천등록
     answer = get_object_or_404(Answer, pk=answer_id)
     if request.user == answer.author:
