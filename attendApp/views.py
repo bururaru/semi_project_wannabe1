@@ -138,17 +138,20 @@ def ranking(request):
     plural = len(list(StuProfile.objects.filter(user_attend = most_att)))
     if plural == 1:
         first_one = stu_list[0][0]
-    else :
+    elif plural !=1 :
         first_one = str(stu_list[0][0]) + ' 외 ' + str(plural-1) + '명'
 
     abs = StuProfile.objects.order_by('-user_absent')
     abs_list = list(abs)
+    ab_stu_list = []
+    for y in abs_list:
+        ab_stu_list.append([y.user_name, y.user_attend, y.user_absent, "", ""])
     most_abs = abs_list[0].user_absent
     plural2 = len(list(StuProfile.objects.filter(user_absent = most_abs)))
     if plural2 == 1:
-        first_one2 = abs_list[0]
-    else :
-        first_one2 = str(abs_list[0][0]) + ' 외 ' + str(plural2-1) + '명'
+        first_one2 = ab_stu_list[0]
+    elif plural2 !=1 :
+        first_one2 = str(ab_stu_list[0][0]) + ' 외 ' + str(plural2-1) + '명'
 
     context = { 'tmp_table' : stu_list, 'attend_1' : first_one, 'absent_1' : first_one2}
     return render(request, 'rank.html', context)
