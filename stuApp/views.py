@@ -93,33 +93,15 @@ def profile_list(request) :
 
     return render(request, 'lists2.html', context)
 
-#-------------------------------------------------------
-
-def profile_read(request, id) :
-    readpro= User.objects.get(id=id)
-    # test1= readpro.username
-    #print('read img - ', readpro.profile_img)
-    print('read시 넘어가는 정보는? - ' , readpro)
-
-    #readpro2 = StuProfile.objects.all()
-    readpro2= StuProfile.objects.get(user_name=readpro.username)
-
-    # readpro2= StuProfile.objects.get(user_name=readpro.username)
-
-    context = {'readpro': readpro,
-               'readpro2' : readpro2,
-               'id': request.session['user_name']
-               }
-
-    return render(request, 'readcon2.html', context)
-
 #------------------------------------------------------------
 def profile_read2(request, id) :
-    readpro= User.objects.get(id=id)
-    readpro2= StuProfile.objects.get(user_name=readpro.username)
-    context = {'readpro': readpro,
-               'readpro2' : readpro2
+    read_stu= StuProfile.objects.get(id=id)
+    read_user= User.objects.get(username=read_stu.user_name)
+    context = {'readpro': read_user,
+               'readpro2' : read_stu,
+               'id' : request.session['user_name']
                }
+    print('확인...', context)
     return render(request, 'readcon2.html', context)
 #-------------------------------------------------------
 
@@ -127,9 +109,11 @@ def modify_form(request) :
     id= request.POST['id']
     print('수정 폼에서 받아오는 id는?', id)
 
-    readmodi= StuProfile.objects.get(id=id)
+    read_one= StuProfile.objects.get(id=id)
+    read_two= User.objects.get(username=read_one.user_name)
 
-    context= {'readmodi' : readmodi,
+    context= {'readmodi' : read_two,
+              'readmodi2' : read_one,
               'id' : request.session['user_name']
               }
 
@@ -137,6 +121,7 @@ def modify_form(request) :
 
     return render(request, 'profile_modify2.html', context)
 
+# ㄻㄴㅇㄹㅇㄹ
 #---------------------------------------------------------
 def profile_modify(request) :
 
@@ -162,3 +147,22 @@ def attachPhoto(request) :
 
     if not profile_photo.name.endswith('.png') and ('jpg') :
         return redirect('index')
+
+#---------------------------------------------------
+def profile_read(request, id) :
+    readpro= User.objects.get(id=id)
+    # test1= readpro.username
+    #print('read img - ', readpro.profile_img)
+    print('read시 넘어가는 정보는? - ' , readpro)
+
+    #readpro2 = StuProfile.objects.all()
+    readpro2= StuProfile.objects.get(user_name=readpro.username)
+
+    # readpro2= StuProfile.objects.get(user_name=readpro.username)
+
+    context = {'readpro': readpro,
+               'readpro2' : readpro2,
+               'id': request.session['user_name']
+               }
+
+    return render(request, 'readcon2.html', context)
