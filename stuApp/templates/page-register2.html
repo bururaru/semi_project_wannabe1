@@ -40,7 +40,7 @@
                     </a>
                 </div>
                 <div class="login-form">
-                    <form action="{% url 'register2' %}" method="post" enctype="multipart/form-data">
+                    <form action="{% url 'stuApp:register2' %}" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
 
                         <div class="form-group">
@@ -82,7 +82,7 @@
                             </div>
                         </div>
                         <div class="register-link m-t-15 text-center">
-                            <p>이미 계정이 있으신가요? <a href="{% url 'loginForm' %}"> Sign in</a></p>
+                            <p>이미 계정이 있으신가요? <a href="{% url 'stuApp:loginForm' %}"> Sign in</a></p>
                         </div>
                     </form>
                 </div>
