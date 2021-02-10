@@ -12,26 +12,26 @@
             </div>
             <!-- /.box-header -->
 
-<form id="modifyFrm" role="form" method="post" action="{% url 'profile_modify' %}">
+<form id="modifyFrm" role="form" method="post" action="{% url 'stuApp:profile_modify' %}">
    {% csrf_token %}
-	<input type="hidden" name="id" value="{{readmodi.id}}" />
+	<input type="hidden" name="id" value="{{readmodi2.id}}" />
    <div class="box-body">
 	<div class="form-group">
 		<label for="exampleInputEmail1">My id</label> <input type="text"
-			name='user_id' class="form-control" value="{{readmodi.user_id}}"
+			name='user_id' class="form-control" value="{{readmodi.username}}"
 			readonly="readonly">
 	</div>
 	<div class="form-group">
 		<label for="exampleInputPassword1">bio</label>
-		<textarea class="form-control" name="mybio2" rows="3">{{readmodi.bio}}</textarea>
+		<textarea class="form-control" name="mybio2" rows="3">{{readmodi2.bio}}</textarea>
 	</div>
 	<div class="form-group">
 		<label for="exampleInputEmail1">Contact</label> <input type="text"
-			name="contact" class="form-control" value="{{readmodi.contact}}">
+			name="contact" class="form-control" value="{{readmodi2.contact}}">
 	</div>
 	<div class="form-group">
 		<label for="exampleInputEmail1">My location</label> <input type="text"
-			name="location" class="form-control" value="{{readmodi.location}}">
+			name="location" class="form-control" value="{{readmodi2.location}}">
 	</div>
 </div>
    <!-- /.box-body -->

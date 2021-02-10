@@ -96,6 +96,7 @@ def profile_list(request) :
 #------------------------------------------------------------
 def profile_read2(request, id) :
     read_stu= StuProfile.objects.get(id=id)
+    print('아이디체크', id)
     read_user= User.objects.get(username=read_stu.user_name)
     context = {'readpro': read_user,
                'readpro2' : read_stu,
@@ -134,12 +135,14 @@ def profile_modify(request) :
     print('수정 중 값 확인...', id, user_name, bio, contact, location)
 
     readmodi= StuProfile.objects.get(id=id)
+
     readmodi.bio= bio
-    readmodi.contact= contact
-    readmodi.location= location
+    readmodi.contact=contact
+    readmodi.location=location
+
     readmodi.save()
 
-    return redirect('profile_list')
+    return redirect('stuApp:profile_list')
 
 #------------------------------------------
 def attachPhoto(request) :

@@ -58,7 +58,7 @@
 
 <form method="post" id="modifyFrm">
 	{% csrf_token %}
-	<input type="hidden" name="id" value="{{readpro2.user_name}}">
+	<input type="hidden" name="id" value="{{readpro2.id}}">
 </form>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -69,7 +69,7 @@ $(document).ready(function(){
 		location.href='../profile_list'
 	})
 	$('#ModifyBtn').click(function (){
-		$('#modifyFrm').attr('action', "{% url 'modify_form' %}").submit()
+		$('#modifyFrm').attr('action', "{% url 'stuApp:modify_form' %}").submit()
 	})
 });
 

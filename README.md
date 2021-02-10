@@ -6,4 +6,6 @@
 - pull check
 - 리얼 마지막입니다..
 - gyuri branch
+- gyu branch
 - 
+

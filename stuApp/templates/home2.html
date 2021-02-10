@@ -75,7 +75,7 @@
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active">
-                        <a href="{% url 'profile_list' %}"><i class="menu-icon fa fa-laptop"></i>멤버 프로필 리스트 </a>
+                        <a href="{% url 'stuApp:profile_list' %}"><i class="menu-icon fa fa-laptop"></i>멤버 프로필 리스트 </a>
                     </li>
                     <li class="menu-title">UI elements</li><!-- /.menu-title -->
                     <li class="menu-item-has-children dropdown">
@@ -243,13 +243,13 @@
                         </a>
 
                         <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="#"><i class="fa fa- user"><a href="{% url 'profile_list' %}"></i>My Profile</a>
+                            <a class="nav-link" href="#"><i class="fa fa- user"><a href="{% url 'stuApp:profile_list' %}"></i>My Profile</a>
 
                             <a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span class="count">13</span></a>
 
                             <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
 
-                            <a class="nav-link" href="#"><i class="fa fa-power -off"><a href="{% url 'logout' %}"></i>Logout</a>
+                            <a class="nav-link" href="#"><i class="fa fa-power -off"><a href="{% url 'stuApp:logout' %}"></i>Logout</a>
                         </div>
                     </div>
 
