@@ -197,10 +197,10 @@ def curri(request):
     if ab_date in range(201, 219):
         subject_name = '세미 프로젝트'
         pro_startdate = datetime.datetime(2021, 2, 1, 9, 0, 0, 1  ) #.000001초 단위 만들기 위해 오차 만들기
-        pro_enddate = datetime.datetime(2021, 2, 19, 18, 0, 0, 0)
+        pro_enddate = datetime.datetime(2021, 2, 16, 18, 0, 0, 0)
     elif ab_date in range(220, 402 ):
         subject_name = 'AI 활용을 위한 딥러닝'
-        pro_startdate = datetime.datetime(2021, 2, 19, 18, 0, 0, 1  ) #.000001초 단위 만들기 위해 오차 만들기
+        pro_startdate = datetime.datetime(2021, 2, 16, 18, 0, 0, 1  ) #.000001초 단위 만들기 위해 오차 만들기
         pro_enddate = datetime.datetime(2021, 4, 2, 18, 0, 0, 0)
     elif ab_date in range(403, 423):
         subject_name = 'AI 프로젝트'
@@ -219,7 +219,10 @@ def curri(request):
     #진행도 측정 부분 : 모듈로 만들어야 할것
 
     ojb = TotalCurriculum.objects.get(subject_name=subject_name)
-    ojb.subject_comp = pro_percentage
+    if pro_percentage >= 100:
+        ojb.subject_comp = 100
+    else:
+        ojb.subject_comp = pro_percentage
     ojb.save()
     rn = datetime.date.today()
     past = TotalCurriculum.objects.filter(subject_date__lte=rn)
