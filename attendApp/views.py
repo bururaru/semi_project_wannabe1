@@ -9,7 +9,7 @@ from django.http import JsonResponse
 
 # Create your views here.
 def main(request):
-    # today 날짜로 조건 설정해서 표시되는 프로젝트 달라지게 
+    # today 날짜로 조건 설정해서 표시되는 프로젝트 달라지게
     subject_day = str(datetime.date.today())
     # subject_day = str(datetime.date(2021, 2, 25))    #테스트용 날짜 변경
     ab_date = int((subject_day[5:7]) + (subject_day[8:]))
@@ -78,27 +78,32 @@ def main(request):
                       'subject_name' : subject_name,
                       'pro_start' : pro_start,
                       'pro_end' : pro_end}
-    # 개인 커스텀 그래프
-    xyz = CustomPeriod.objects.first() #개인 그래프용 db 호출
-    context['custom_name'] = xyz.name
-    context['custom_startdate'] = xyz.start
-    context['custom_enddate'] = xyz.end
 
-    custom_period = xyz.end - xyz.start
-    custom_total_second = custom_period.total_seconds()
-    custom_start_str = datetime.datetime.strftime(xyz.start, '%Y-%m-%d %H:%M:%S')
-    custom_start_aware = datetime.datetime.strptime(custom_start_str, '%Y-%m-%d %H:%M:%S')
-    if custom_start_aware > today_now:
-        custom_today = custom_start_str
+    # 개인 커스텀 그래프
+    user_name = request.session['user_name']
+    xyz = StuProfile.objects.get(user_name=user_name) #개인 그래프용 db 호출
+    context['custom_name'] = xyz.calendar_name
+    context['custom_startdate'] = xyz.calendar_start
+    context['custom_enddate'] = xyz.calendar_end
+    context['id'] = xyz.user_name
+    if xyz.calendar_name == None:
+        custom_period = None
     else:
-        custom_today = str(today_now)[:-7]
-    custom_today2 = datetime.datetime.strptime(custom_today, '%Y-%m-%d %H:%M:%S')
-    custom_prog = custom_today2 - custom_start_aware
-    custom_prog = custom_prog - datetime.timedelta(hours=9)
-    custom_prog_second = custom_prog.total_seconds()
-    custom_percentage = (custom_prog_second/custom_total_second)*100
-    context['custom_seconds'] = custom_total_second
-    context['custom_percentage'] = custom_percentage
+        custom_period = xyz.calendar_end - xyz.calendar_start
+        custom_total_second = custom_period.total_seconds()
+        custom_start_str = datetime.datetime.strftime(xyz.calendar_start, '%Y-%m-%d %H:%M:%S')
+        custom_start_aware = datetime.datetime.strptime(custom_start_str, '%Y-%m-%d %H:%M:%S')
+        if custom_start_aware > today_now:
+            custom_today = custom_start_str
+        else:
+            custom_today = str(today_now)[:-7]
+        custom_today2 = datetime.datetime.strptime(custom_today, '%Y-%m-%d %H:%M:%S')
+        custom_prog = custom_today2 - custom_start_aware
+        custom_prog = custom_prog - datetime.timedelta(hours=9)
+        custom_prog_second = custom_prog.total_seconds()
+        custom_percentage = (custom_prog_second/custom_total_second)*100
+        context['custom_seconds'] = custom_total_second
+        context['custom_percentage'] = custom_percentage
 
     return render(request, 'main.html', context)
 
@@ -111,17 +116,19 @@ def custom_period(request):
     end = end_datetime + " " + end_time
     period_name = request.POST['period_name']
 
-    data = CustomPeriod.objects.first()
-    data.name = period_name
-    data.start = start
-    data.end = end
+    user_name = request.session['user_name']
+    data = StuProfile.objects.get(user_name=user_name)
+    data.calendar_name = period_name
+    data.calendar_start = start
+    data.calendar_end = end
     data.save()
 
     return redirect('main')
 
 def custom_del(request):
-    data = CustomPeriod.objects.first()
-    data.name = ''
+    user_name = request.session['user_name']
+    data = StuProfile.objects.get(user_name=user_name)
+    data.calendar_name = ''
     data.save()
     return redirect('main')
 
@@ -230,6 +237,16 @@ def curri(request):
 
     context = {'list' : curri_list, 'len' : rn}
     return render(request, 'curriculum.html' , context)
+
+
+def add_attend(request):
+    name = request.POST['name']
+    person = StudentUser.objects.get(user_name=name)
+    person.user_attend = person.user_attend + 1
+    person.save()
+    context = {}
+    context['alert'] = name+'님 출석 확인되었습니다'
+    return JsonResponse(context, safe=False)
 
 def text(request):
     return render(request, 'text.html')

@@ -140,6 +140,22 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>  
 
 
+    <script>
+        $('#at_btn').click(function() {
+            $.ajax({
+                url : '{% url "add" %}',
+                type : 'post',
+                data : {'csrfmiddlewaretoken' : '{{csrf_token}}',
+                          'name' : $('#stu_name').val() },
+                dataType : 'json',
+                success: function(respon)
+                {
+                    alert(respon.alert)
+                    location.reload();
+                }
+            })
+        })
+    </script>
 {% endblock %}
 
 
