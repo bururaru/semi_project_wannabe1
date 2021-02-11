@@ -231,15 +231,5 @@ def curri(request):
     context = {'list' : curri_list, 'len' : rn}
     return render(request, 'curriculum.html' , context)
 
-
-def add_attend(request):
-    name = request.POST['name']
-    person = StudentUser.objects.get(user_name=name)
-    person.user_attend = person.user_attend + 1
-    person.save()
-    context = {}
-    context['alert'] = name+'님 출석 확인되었습니다'
-    return JsonResponse(context, safe=False)
-
 def text(request):
     return render(request, 'text.html')

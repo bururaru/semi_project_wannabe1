@@ -1,14 +1,6 @@
 from django.db import models
 
 # Create your models here.
-class StudentUser(models.Model):
-    user_name = models.CharField(max_length=10)
-    user_nickname = models.CharField(max_length=20)
-    user_attend = models.IntegerField(default=0)
-    user_absent = models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.user_name
 
 class TotalCurriculum(models.Model):
     subject_name = models.CharField(max_length=20)
