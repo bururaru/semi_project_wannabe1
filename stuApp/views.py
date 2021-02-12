@@ -91,7 +91,7 @@ def profile_list(request) :
              'id' : request.session['user_name']}
     print('request - ' , readusers)
 
-    return render(request, 'lists2.html', context)
+    return render(request, 'listtest.html', context)
 
 #------------------------------------------------------------
 def profile_read2(request, id) :
@@ -103,7 +103,7 @@ def profile_read2(request, id) :
                'id' : request.session['user_name']
                }
     print('확인...', context)
-    return render(request, 'readcon2.html', context)
+    return render(request, 'readcontest.html', context)
 #-------------------------------------------------------
 
 def modify_form(request) :
@@ -120,19 +120,19 @@ def modify_form(request) :
 
     print('컨텍스트 확인-', context)
 
-    return render(request, 'profile_modify2.html', context)
+    return render(request, 'profile_modifytest.html', context)
 
 # ㄻㄴㅇㄹㅇㄹ
 #---------------------------------------------------------
 def profile_modify(request) :
 
     id= request.POST['id']
-    user_name= request.POST['user_id']
+
     bio= request.POST['mybio2']
     contact=request.POST['contact']
     location=request.POST['location']
 
-    print('수정 중 값 확인...', id, user_name, bio, contact, location)
+    print('수정 중 값 확인...', id, bio, contact, location)
 
     readmodi= StuProfile.objects.get(id=id)
 
@@ -151,21 +151,3 @@ def attachPhoto(request) :
     if not profile_photo.name.endswith('.png') and ('jpg') :
         return redirect('index')
 
-#---------------------------------------------------
-def profile_read(request, id) :
-    readpro= User.objects.get(id=id)
-    # test1= readpro.username
-    #print('read img - ', readpro.profile_img)
-    print('read시 넘어가는 정보는? - ' , readpro)
-
-    #readpro2 = StuProfile.objects.all()
-    readpro2= StuProfile.objects.get(user_name=readpro.username)
-
-    # readpro2= StuProfile.objects.get(user_name=readpro.username)
-
-    context = {'readpro': readpro,
-               'readpro2' : readpro2,
-               'id': request.session['user_name']
-               }
-
-    return render(request, 'readcon2.html', context)
