@@ -7,6 +7,7 @@ from .opencv_browser import opencv_browser
 from .opencv_moblie import opencv_mobile
 from django.http      import JsonResponse
 from .models import *
+from stuApp.models import StuProfile
 import datetime
 # Create your views here.
 def web_ver(request):
@@ -18,7 +19,7 @@ def browser(request):
         print('browser return value', flag)
         if flag == 1:
             list = [{'browser_info': 'QR 출석을 완료했습니다. '}]
-            p = Profile.objects.get(user_name='kim')
+            p = StuProfile.objects.get(user_name=request.user)
             p.user_attend = p.user_attend + 1
             p.save()
             return JsonResponse(list, safe=False)
@@ -35,7 +36,7 @@ def mobile(request):
         print('mobile return value - ', flag)
         if flag == 1:
             list = [{'mobile_info': 'QR 출석을 완료했습니다. '}]
-            p = Profile.objects.get(user_name='kim')
+            p = StuProfile.objects.get(user_name=request.user)
             p.user_attend = p.user_attend + 1
             p.save()
             return JsonResponse(list, safe=False)
