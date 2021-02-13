@@ -1,46 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+{% include 'header.html' %}
+{% block content0 %}
+<style>
+    #Bbtn{
+        margin: 4px;
+    }
+    #Mbtn{
+        margin: 4px;
+    }
+    #Abtn{
+        margin: 4px;
+    }
+
+</style>
+{% endblock %}
+{% include 'header2.html' %}
+{% block content1 %}
+
 <body>
 
 <div class="card-body">
-<button type="submit" class = "btn btn-outline-primary" name="Bbtn" value="Bbtn" id="Bbtn">
-    <div class="icon-container">
-        <span class="ti-stamp"></span>
-        <span class="icon-name"> browser ver QR 출석 </span>
-    </div></button>
-<div id="browser_result"></div>
+    <button type="submit" class = "btn btn-outline-primary" name="Bbtn" value="Bbtn" id="Bbtn">
+        <div class="icon-container">
+            <span class="ti-stamp"></span>
+            <span class="icon-name"> browser ver QR 출석 </span>
+        </div>
+    </button>
+    <div id="browser_result"></div>
+    <p>
 
+    <button type="submit" class = "btn btn-outline-primary" name="Mbtn" value="Mbtn" id="Mbtn">
+        <div class="icon-container">
+            <span class="ti-stamp"></span>
+            <span class="icon-name"> mobile ver QR 출석 </span>
+        </div>
+    </button>
+    <div id="mobile_result"></div>
 
-<button type="submit" class = "btn btn-outline-primary" name="Mbtn" value="Mbtn" id="Mbtn">
-    <div class="icon-container">
-        <span class="ti-stamp"></span>
-        <span class="icon-name"> mobile ver QR 출석 </span>
-    </div>
-</button>
-
-<div id="mobile_result"></div>
-<form method="POST" class="post-form">
-
-    {% csrf_token %}
-    {{alarm_info}}
-</form>
-
-<div id="result"></div>
-<div id="timeLeft" style="visibility:hidden" ></div>
-<button type="submit" class="btn btn-success " name="Abtn" value="Abtn" id="Abtn" style="visibility:hidden;font-weight:bold">
-    <div class="icon-container">
-        <span class="ti-alarm-clock"></span>
-        <span class="icon-name"> 신호 출석 </span>
-    </div>
-</button>
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        {{alarm_info}}
+    </form>
+    <div id="result"></div>
+    <div id="timeLeft" style="visibility:hidden" ></div>
+    <button type="submit" class="btn btn-success " name="Abtn" value="Abtn" id="Abtn" style="visibility:hidden;font-weight:bold">
+        <div class="icon-container">
+            <span class="ti-alarm-clock"></span>
+            <span class="icon-name"> 신호 출석 </span>
+        </div>
+    </button>
 </div>
 
- <script src="http://code.jquery.com/jquery-latest.js"></script>
-
+<script src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
     $(document).ready(function() {
          tid=setInterval('PrintTime()',1000);
@@ -100,8 +110,8 @@
          })
     });
 </script>
-<script>
 
+<script>
 function PrintTime() {
     function alarmTime(){
         // 11시와 3시 울린다
@@ -135,5 +145,14 @@ function PrintTime() {
     }
 }
 </script>
-</body>
-</html>
+{% endblock %}
+
+
+{% include 'footer.html' %}
+
+{% block content2 %}
+
+{% endblock %}
+
+
+{% include 'footer2.html' %}

@@ -9,18 +9,29 @@ from django.http      import JsonResponse
 from .models import *
 from stuApp.models import StuProfile
 import datetime
+
 # Create your views here.
 def web_ver(request):
     return render(request, 'web_ver.html')
 
 def browser(request):
+
     if request.method == 'POST' and request.POST['flag'] == 'Bbtn':
         flag = opencv_browser(1)
         print('browser return value', flag)
         if flag == 1:
-            list = [{'browser_info': 'QR 출석을 완료했습니다. '}]
+            check_day = str(datetime.datetime.today())
+            check_hour = int(check_day[11:13])
+            check_min = int(check_day[14:16])
+            check_sec = int(check_day[17:19])
+
             p = StuProfile.objects.get(user_name=request.user)
-            p.user_attend = p.user_attend + 1
+            if (check_hour == 8 and 50 <=check_min and check_min <= 59) or (check_hour == 9 and 00<=check_min and check_min < 5):
+                list = [{'browser_info': 'QR 출석을 완료했습니다. '}]
+                p.user_attend = p.user_attend + 1
+            else:
+                list = [{'browser_info': 'QR 출석을 완료했습니다. 지각입니다.'}]
+                p.user_late = p.user_late + 1
             p.save()
             return JsonResponse(list, safe=False)
         else:
@@ -30,14 +41,23 @@ def browser(request):
     return JsonResponse(list, safe=False)
 
 def mobile(request):
-    print('ajax - 입성')
     if request.method == 'POST':
         flag = opencv_mobile(1)
         print('mobile return value - ', flag)
         if flag == 1:
-            list = [{'mobile_info': 'QR 출석을 완료했습니다. '}]
+            check_day = str(datetime.datetime.today())
+            check_hour = int(check_day[11:13])
+            check_min = int(check_day[14:16])
+            check_sec = int(check_day[17:19])
+
             p = StuProfile.objects.get(user_name=request.user)
-            p.user_attend = p.user_attend + 1
+            if (check_hour == 8 and 50 <= check_min and check_min <= 59) or (
+                    check_hour == 9 and 00 <= check_min and check_min < 5):
+                list = [{'mobile_info': 'QR 출석을 완료했습니다. '}]
+                p.user_attend = p.user_attend + 1
+            else:
+                list = [{'browser_info': 'QR 출석을 완료했습니다. 지각입니다.'}]
+                p.user_late = p.user_late + 1
             p.save()
             return JsonResponse(list, safe=False)
         else:
