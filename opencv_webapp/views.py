@@ -7,19 +7,31 @@ from .opencv_browser import opencv_browser
 from .opencv_moblie import opencv_mobile
 from django.http      import JsonResponse
 from .models import *
+from stuApp.models import StuProfile
 import datetime
+
 # Create your views here.
 def web_ver(request):
     return render(request, 'web_ver.html')
 
 def browser(request):
+
     if request.method == 'POST' and request.POST['flag'] == 'Bbtn':
         flag = opencv_browser(1)
         print('browser return value', flag)
         if flag == 1:
-            list = [{'browser_info': 'QR 출석을 완료했습니다. '}]
-            p = Profile.objects.get(user_name='kim')
-            p.user_attend = p.user_attend + 1
+            check_day = str(datetime.datetime.today())
+            check_hour = int(check_day[11:13])
+            check_min = int(check_day[14:16])
+            check_sec = int(check_day[17:19])
+
+            p = StuProfile.objects.get(user_name=request.user)
+            if (check_hour == 8 and 50 <=check_min and check_min <= 59) or (check_hour == 9 and 00<=check_min and check_min < 5):
+                list = [{'browser_info': 'QR 출석을 완료했습니다. '}]
+                p.user_attend = p.user_attend + 1
+            else:
+                list = [{'browser_info': 'QR 출석을 완료했습니다. 지각입니다.'}]
+                p.user_late = p.user_late + 1
             p.save()
             return JsonResponse(list, safe=False)
         else:
@@ -29,14 +41,23 @@ def browser(request):
     return JsonResponse(list, safe=False)
 
 def mobile(request):
-    print('ajax - 입성')
     if request.method == 'POST':
         flag = opencv_mobile(1)
         print('mobile return value - ', flag)
         if flag == 1:
-            list = [{'mobile_info': 'QR 출석을 완료했습니다. '}]
-            p = Profile.objects.get(user_name='kim')
-            p.user_attend = p.user_attend + 1
+            check_day = str(datetime.datetime.today())
+            check_hour = int(check_day[11:13])
+            check_min = int(check_day[14:16])
+            check_sec = int(check_day[17:19])
+
+            p = StuProfile.objects.get(user_name=request.user)
+            if (check_hour == 8 and 50 <= check_min and check_min <= 59) or (
+                    check_hour == 9 and 00 <= check_min and check_min < 5):
+                list = [{'mobile_info': 'QR 출석을 완료했습니다. '}]
+                p.user_attend = p.user_attend + 1
+            else:
+                list = [{'browser_info': 'QR 출석을 완료했습니다. 지각입니다.'}]
+                p.user_late = p.user_late + 1
             p.save()
             return JsonResponse(list, safe=False)
         else:
@@ -49,6 +70,11 @@ def mobile(request):
 def alarm_ajax(request):
     if request.method == 'POST' and request.POST['flag'] == 'Abtn':
         print(request.POST['flag'])
+        p = StuProfile.objects.get(user_name=request.user)
+        p.user_absent = p.user_absent + 1
+        p.save()
     # print('ajax - param - ', flag)
-    list = [{'info': '신호출결이 완료 되었습니다. '}]
+        list = [{'info': '신호출결이 완료되었습니다. '}]
+    else:
+        list = [{'info': '다시 시도해주세요 . '}]
     return JsonResponse(list, safe=False)
