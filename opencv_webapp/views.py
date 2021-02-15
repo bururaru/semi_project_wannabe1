@@ -70,6 +70,11 @@ def mobile(request):
 def alarm_ajax(request):
     if request.method == 'POST' and request.POST['flag'] == 'Abtn':
         print(request.POST['flag'])
+        p = StuProfile.objects.get(user_name=request.user)
+        p.user_absent = p.user_absent + 1
+        p.save()
     # print('ajax - param - ', flag)
-    list = [{'info': '신호출결이 완료 되었습니다. '}]
+        list = [{'info': '신호출결이 완료되었습니다. '}]
+    else:
+        list = [{'info': '다시 시도해주세요 . '}]
     return JsonResponse(list, safe=False)
