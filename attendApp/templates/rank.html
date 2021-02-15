@@ -22,7 +22,7 @@
                                 <div class="stat-text">1등 : {{attend_1}}</div>
                                 <div class="stat-heading">
                                     <!-- <button class="btn btn-secondary btn-sm" name="atd" id="atd">출석 순위</button> -->
-                                    <form method="POST" action="{% url 'ranking' %}">
+                                    <form method="POST" action="{% url 'atdApp:ranking' %}">
                                         {% csrf_token %}
                                         <button class="btn btn-secondary btn-sm" id="abs" value="atd">출석 순위</button>
                                     </form>
@@ -45,7 +45,7 @@
                             <div class="text-left dib">
                                 <div class="stat-text">1등 : {{absent_1}}</div>
                                 <div class="stat-heading">
-                                    <form method="POST" action="{% url 'difrank' %}">
+                                    <form method="POST" action="{% url 'atdApp:difrank' %}">
                                         {% csrf_token %}
                                         <button class="btn btn-secondary btn-sm" id="abs" value="abs" name="name">결석 순위</button>
                                     </form>
@@ -143,7 +143,7 @@
     <script>
         $('#at_btn').click(function() {
             $.ajax({
-                url : '{% url "add" %}',
+                url : '{% url "atdApp:add" %}',
                 type : 'post',
                 data : {'csrfmiddlewaretoken' : '{{csrf_token}}',
                           'name' : $('#stu_name').val() },

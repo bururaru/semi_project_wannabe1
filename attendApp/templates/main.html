@@ -54,7 +54,7 @@
             <span style="margin: 0 0 0 auto">18:00</span>
         </div>
 
-        
+        {% if id %}
        <div >
         {% if custom_name %}
         <div id="custom_graph">
@@ -69,11 +69,9 @@
         </div>
         {% endif %}
 
-        <div style="font-style: italic;">각자 코딩에 관련된 목표를 설정해 보아요</div>
-
-
         {% if not custom_name %}
-        <form id="custom_add" method="POST" action="{% url 'custom_save' %}">
+        <div style="font-style: italic;">각자 코딩에 관련된 목표를 설정해 보아요</div>
+        <form id="custom_add" method="POST" action="{% url 'atdApp:custom_save' %}">
             {% csrf_token %}
             <input class="form-control" type="text" name="period_name" placeholder="기간의 이름을 입력하세요"></input>
             <div>시작
@@ -89,12 +87,18 @@
         {% endif %}
 
         {% if custom_name %}
-        <form id="custom_del" method="POST" action="{% url 'custom_del' %}">
+        <form id="custom_del" method="POST" action="{% url 'atdApp:custom_del' %}">
             {% csrf_token %}
             <button class="btn btn-secondary btn-sm">개인 그래프 제거</button>
         </form>
         {% endif %}
        </div>
+
+       {% else %}
+       <div>
+           개인 일정 추가를 위해 로그인 해주세요
+       </div>
+       {% endif %}
 
 </div>
 {% endblock %}

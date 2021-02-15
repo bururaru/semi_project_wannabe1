@@ -29,6 +29,10 @@ class StuProfile(models.Model):
     user_absent = models.IntegerField(default=0)
     user_late = models.IntegerField(default=0)
     user_outing = models.IntegerField(default=0)
+    calendar_name= models.CharField(max_length=30, default=None, blank=True, null=True)
+    calendar_start=models.DateTimeField(blank=True, null=True)
+    calendar_end = models.DateTimeField(blank=True, null=True)
+
 
     bio = models.TextField(max_length=500, blank=True)
     contact = models.CharField(max_length=50, blank=True)
