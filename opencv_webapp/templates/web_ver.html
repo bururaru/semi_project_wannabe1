@@ -35,18 +35,19 @@
     </button>
 
 
-    <form method="POST" class="post-form">
-        {% csrf_token %}
-        {{alarm_info}}
-    </form>
-    <div  id="result"></div>
-    <div style="visibility:hidden" ></div>
+
+
     <button type="submit" class="btn btn-success " name="Abtn" value="Abtn" id="Abtn" style="visibility:hidden;font-weight:bold">
         <div class="icon-container">
             <span class="ti-alarm-clock"></span>
             <span class="icon-name" id="timeLeft"> 신호 출석 </span>
         </div>
     </button>
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        {{alarm_info}}
+    </form>
+    <div id="result"></div>
 </div>
 
 <script src="http://code.jquery.com/jquery-latest.js"></script>
