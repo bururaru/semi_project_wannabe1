@@ -41,7 +41,7 @@
             {% for x in list %}
                 <tr>
                     <td class="name">
-                        <a href="{% url 'ranking' %}">{{x.subject_name}}</a>
+                        <a href="{% url 'atdApp:ranking' %}">{{x.subject_name}}</a>
                     </td>
                     <td>
                         {{x.subject_date|date:"Y-m-d"}}
@@ -49,19 +49,19 @@
                     <td>
                         {% for y in x.specdetail_set.all %}
                             {% if y.spec_name == 'sql' %}
-                            <a href="{% url 'ranking' %}"class="spec_btn" style="background-color: yellow;">{{y.spec_name}}</a>
+                            <a href="{% url 'atdApp:ranking' %}"class="spec_btn" style="background-color: yellow;">{{y.spec_name}}</a>
                             {% elif y.spec_name == 'git' %}
-                            <a href="{% url 'ranking' %}"class="spec_btn" style="background-color: teal;">{{y.spec_name}}</a>
+                            <a href="{% url 'atdApp:ranking' %}"class="spec_btn" style="background-color: teal;">{{y.spec_name}}</a>
                             {% elif y.spec_name == 'python' %}
-                            <a href="{% url 'ranking' %}"class="spec_btn" style="background-color: lightblue;">{{y.spec_name}}</a>
+                            <a href="{% url 'atdApp:ranking' %}"class="spec_btn" style="background-color: lightblue;">{{y.spec_name}}</a>
                             {% elif y.spec_name == 'django' %}
-                            <a href="{% url 'ranking' %}"class="spec_btn" style="background-color: crimson;">{{y.spec_name}}</a>
+                            <a href="{% url 'atdApp:ranking' %}"class="spec_btn" style="background-color: crimson;">{{y.spec_name}}</a>
                             {% elif y.spec_name == 'html' %}
-                            <a href="{% url 'ranking' %}"class="spec_btn" style="background-color: darkkhaki;">{{y.spec_name}}</a>
+                            <a href="{% url 'atdApp:ranking' %}"class="spec_btn" style="background-color: darkkhaki;">{{y.spec_name}}</a>
                             {% elif y.spec_name == 'javascript' %}
-                            <a href="{% url 'ranking' %}"class="spec_btn" style="background-color: darkorange;">{{y.spec_name}}</a>
+                            <a href="{% url 'atdApp:ranking' %}"class="spec_btn" style="background-color: darkorange;">{{y.spec_name}}</a>
                             {% else %}
-                            <a href="{% url 'ranking' %}"class="spec_btn" style="background-color: lightgrey">{{y.spec_name}}</a>
+                            <a href="{% url 'atdApp:ranking' %}"class="spec_btn" style="background-color: lightgrey">{{y.spec_name}}</a>
                             {% endif %}
                         {% endfor %}
                     </td>

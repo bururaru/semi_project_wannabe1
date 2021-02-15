@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.urls import path, include
 from attendApp import views
 
+app_name= 'atdApp'
+
 urlpatterns = [
     path('main/', views.main, name='main'),
     path('ranking/', views.ranking, name='ranking'),

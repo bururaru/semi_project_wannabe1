@@ -74,7 +74,7 @@
 
 
         {% if not custom_name %}
-        <form id="custom_add" method="POST" action="{% url 'custom_save' %}">
+        <form id="custom_add" method="POST" action="{% url 'atdApp:custom_save' %}">
             {% csrf_token %}
             <input class="form-control" type="text" name="period_name" placeholder="기간의 이름을 입력하세요"></input>
             <div>시작
@@ -90,7 +90,7 @@
         {% endif %}
 
         {% if custom_name %}
-        <form id="custom_del" method="POST" action="{% url 'custom_del' %}">
+        <form id="custom_del" method="POST" action="{% url 'atdApp:custom_del' %}">
             {% csrf_token %}
             <button class="btn btn-secondary btn-sm">개인 그래프 제거</button>
         </form>
