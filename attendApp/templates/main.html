@@ -27,7 +27,6 @@
 
 {% block content1 %}
 <div class="content">
-    <div>{{id}}</div>
     <div>전체 프로그램</div>
         <div id="whole" >
             <div id="whole_bar"  class="progress-bar-striped progress-bar-animated" style="background-color: #00c292;"></div>
@@ -70,10 +69,8 @@
         </div>
         {% endif %}
 
-        <div style="font-style: italic;">각자 코딩에 관련된 목표를 설정해 보아요</div>
-
-
         {% if not custom_name %}
+        <div style="font-style: italic;">각자 코딩에 관련된 목표를 설정해 보아요</div>
         <form id="custom_add" method="POST" action="{% url 'atdApp:custom_save' %}">
             {% csrf_token %}
             <input class="form-control" type="text" name="period_name" placeholder="기간의 이름을 입력하세요"></input>
