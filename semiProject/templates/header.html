@@ -77,6 +77,7 @@
                 <ul class="nav navbar-nav">
                     <li class="active">
                         <a href="index.html"><i class="menu-icon fa fa-laptop"></i>Dashboard </a>
+<!--                        <윗줄 부분을 (Dashboard대신) 로그아웃으로 해도 될 것 같습니다!-->
                     </li>
                     <li class="menu-title">UI elements</li><!-- /.menu-title -->
 
@@ -88,10 +89,16 @@
                         </ul>
                     </li>
                     <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cogs"></i>김주빈</a>
-                        <ul class="sub-menu children dropdown-menu">                            
-                            <li><i class="fa fa-puzzle-piece"></i><a href="ui-buttons.html">페이지1</a></li>
-                            <li><i class="fa fa-id-badge"></i><a href="ui-badges.html">페이지2</a></li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-agenda"></i>Member</a>
+                        <ul class="sub-menu children dropdown-menu">
+                            <li><i class="fa fa-id-badge"></i><a href="{% url 'stuApp:profile_list' %}">Member List</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon ti-check-box"></i>Calendar</a>
+                        <ul class="sub-menu children dropdown-menu">
+                            <li><i class="fa fa-puzzle-piece"></i><a href="{% url 'calendar' %}">View schedule</a></li>
+                            <li><i class="fa fa-puzzle-piece"></i><a href="{% url 'new' %}">Add schedule</a></li>
                         </ul>
                     </li>
                     <li class="menu-item-has-children dropdown">
