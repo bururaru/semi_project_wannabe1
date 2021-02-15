@@ -17,7 +17,9 @@ def calendar_view(request):
     html_cal = cal.formatmonth(withyear=True)
     result_cal = mark_safe(html_cal)
 
-    context = {'calendar': result_cal, 'prev_month': prev_month_var, 'next_month': next_month_var}
+    context = {'calendar': result_cal, 'prev_month': prev_month_var, 'next_month': next_month_var,
+               'id': request.session['user_name']}
+    print('캘린더 테스트', context)
 
     return render(request, 'events2.html', context)
 
@@ -58,7 +60,7 @@ def event(request, event_id=None):
     if request.POST and form.is_valid():
         form.save()
         return redirect('calendar')
-    return render(request, 'input2.html', {'form': form})
+    return render(request, 'input2.html', {'form': form, 'id': request.session['user_name']})
 
 # Event 삭제
 def event_remove(request) :

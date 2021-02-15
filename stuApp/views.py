@@ -10,6 +10,7 @@ from django.views import View
 import os
 from uuid import uuid4
 from django.utils import timezone
+from django.contrib.sites.models import *
 
 # Create your views here.
 
@@ -23,7 +24,7 @@ from django.utils import timezone
 
 def index(request) :
     if request.session.get('user_name') :
-        context={id: request.session['user_name']
+        context={'id': request.session['user_name']
                  }
         return render(request, 'home2.html', context)
     else :
@@ -44,10 +45,25 @@ def register(request) :
         register111 = User(username=name, password=pwd, email=email)
         register111.save()
 
+        # value_profile_img= request.FILES['profile_img']
+        # if 'profile_img' in request.FILES:
+        #     file = request.FILES['profile_img']
+        #     file_name = file._name
+        #     print('register img - ', file_name)
+        #     fp = open('%s%s' % ('stuApp/static/images/', file_name), 'wb')
+        #     for chunk in file.chunks():
+        #         fp.write(chunk)
+        #     fp.close()
+        # else:
+        #     file_name = 'default.png'
+        # print('이미지 들어오나 확인...', request.FILES)
+
         re = StuProfile.objects.get(user_name=name)
         re.bio = value_bio
         re.contact= value_contact
         re.location= value_location
+        # re.profile_img=value_profile_img
+        # print('이미지 저장 확인', re.profile_img)
         re.save()
 
     return render(request, 'page-login2.html')
@@ -55,14 +71,14 @@ def register(request) :
 def logout(request) :
     request.session['user_name'] = {}
     request.session.modified= True
-    return redirect('index')
+    return redirect('stuApp:index')
 
 def loginForm(request) :
     return render(request, 'page-login2.html')
 
 def login(request) :
     if request.method== 'GET' :
-        return redirect('index')
+        return redirect('stuApp:index')
 
     elif request.method=='POST' :
         id = request.POST['id']
@@ -80,7 +96,7 @@ def login(request) :
             return render (request, 'home2.html', context)
 
         else :
-            return redirect('index')
+            return redirect('stuApp:index')
 
 #-----------------------------------------------------------
 
@@ -91,19 +107,20 @@ def profile_list(request) :
              'id' : request.session['user_name']}
     print('request - ' , readusers)
 
-    return render(request, 'lists2.html', context)
+    return render(request, 'listtest.html', context)
 
 #------------------------------------------------------------
 def profile_read2(request, id) :
     read_stu= StuProfile.objects.get(id=id)
     print('아이디체크', id)
+
     read_user= User.objects.get(username=read_stu.user_name)
     context = {'readpro': read_user,
                'readpro2' : read_stu,
                'id' : request.session['user_name']
                }
     print('확인...', context)
-    return render(request, 'readcon2.html', context)
+    return render(request, 'readcontest.html', context)
 #-------------------------------------------------------
 
 def modify_form(request) :
@@ -120,19 +137,19 @@ def modify_form(request) :
 
     print('컨텍스트 확인-', context)
 
-    return render(request, 'profile_modify2.html', context)
+    return render(request, 'profile_modifytest.html', context)
 
 # ㄻㄴㅇㄹㅇㄹ
 #---------------------------------------------------------
 def profile_modify(request) :
 
     id= request.POST['id']
-    user_name= request.POST['user_id']
+
     bio= request.POST['mybio2']
     contact=request.POST['contact']
     location=request.POST['location']
 
-    print('수정 중 값 확인...', id, user_name, bio, contact, location)
+    print('수정 중 값 확인...', id, bio, contact, location)
 
     readmodi= StuProfile.objects.get(id=id)
 
@@ -151,21 +168,3 @@ def attachPhoto(request) :
     if not profile_photo.name.endswith('.png') and ('jpg') :
         return redirect('index')
 
-#---------------------------------------------------
-def profile_read(request, id) :
-    readpro= User.objects.get(id=id)
-    # test1= readpro.username
-    #print('read img - ', readpro.profile_img)
-    print('read시 넘어가는 정보는? - ' , readpro)
-
-    #readpro2 = StuProfile.objects.all()
-    readpro2= StuProfile.objects.get(user_name=readpro.username)
-
-    # readpro2= StuProfile.objects.get(user_name=readpro.username)
-
-    context = {'readpro': readpro,
-               'readpro2' : readpro2,
-               'id': request.session['user_name']
-               }
-
-    return render(request, 'readcon2.html', context)
