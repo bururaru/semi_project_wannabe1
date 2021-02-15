@@ -81,29 +81,34 @@ def main(request):
 
     # 개인 커스텀 그래프
     user_name = request.session['user_name']
-    xyz = StuProfile.objects.get(user_name=user_name) #개인 그래프용 db 호출
-    context['custom_name'] = xyz.calendar_name
-    context['custom_startdate'] = xyz.calendar_start
-    context['custom_enddate'] = xyz.calendar_end
-    context['id'] = xyz.user_name
-    if xyz.calendar_name == None:
-        custom_period = None
-    else:
-        custom_period = xyz.calendar_end - xyz.calendar_start
-        custom_total_second = custom_period.total_seconds()
-        custom_start_str = datetime.datetime.strftime(xyz.calendar_start, '%Y-%m-%d %H:%M:%S')
-        custom_start_aware = datetime.datetime.strptime(custom_start_str, '%Y-%m-%d %H:%M:%S')
-        if custom_start_aware > today_now:
-            custom_today = custom_start_str
+    if user_name:
+        xyz = StuProfile.objects.get(user_name=user_name) #개인 그래프용 db 호출
+        context['custom_name'] = xyz.calendar_name
+        context['custom_startdate'] = xyz.calendar_start
+        context['custom_enddate'] = xyz.calendar_end
+        context['id'] = xyz.user_name
+        if xyz.calendar_name == None:
+            custom_period = None
         else:
-            custom_today = str(today_now)[:-7]
-        custom_today2 = datetime.datetime.strptime(custom_today, '%Y-%m-%d %H:%M:%S')
-        custom_prog = custom_today2 - custom_start_aware
-        custom_prog = custom_prog - datetime.timedelta(hours=9)
-        custom_prog_second = custom_prog.total_seconds()
-        custom_percentage = (custom_prog_second/custom_total_second)*100
-        context['custom_seconds'] = custom_total_second
-        context['custom_percentage'] = custom_percentage
+            custom_period = xyz.calendar_end - xyz.calendar_start
+            custom_total_second = custom_period.total_seconds()
+            custom_start_str = datetime.datetime.strftime(xyz.calendar_start, '%Y-%m-%d %H:%M:%S')
+            custom_start_aware = datetime.datetime.strptime(custom_start_str, '%Y-%m-%d %H:%M:%S')
+            if custom_start_aware > today_now:
+                custom_today = custom_start_str
+            else:
+                custom_today = str(today_now)[:-7]
+            custom_today2 = datetime.datetime.strptime(custom_today, '%Y-%m-%d %H:%M:%S')
+            custom_prog = custom_today2 - custom_start_aware
+            custom_prog = custom_prog - datetime.timedelta(hours=9)
+            custom_prog_second = custom_prog.total_seconds()
+            custom_percentage = (custom_prog_second/custom_total_second)*100
+            context['custom_seconds'] = custom_total_second
+            context['custom_percentage'] = custom_percentage
+    else:
+        context['id'] = None
+        context['custom_seconds'] = 1
+        context['custom_percentage'] = 1
 
     return render(request, 'main.html', context)
 
@@ -123,14 +128,14 @@ def custom_period(request):
     data.calendar_end = end
     data.save()
 
-    return redirect('main')
+    return redirect('atdApp:main')
 
 def custom_del(request):
     user_name = request.session['user_name']
     data = StuProfile.objects.get(user_name=user_name)
     data.calendar_name = ''
     data.save()
-    return redirect('main')
+    return redirect('atdApp:main')
 
 
 def ranking(request):

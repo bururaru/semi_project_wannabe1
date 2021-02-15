@@ -55,7 +55,7 @@
             <span style="margin: 0 0 0 auto">18:00</span>
         </div>
 
-        
+        {% if id %}
        <div >
         {% if custom_name %}
         <div id="custom_graph">
@@ -96,6 +96,12 @@
         </form>
         {% endif %}
        </div>
+
+       {% else %}
+       <div>
+           개인 일정 추가를 위해 로그인 해주세요
+       </div>
+       {% endif %}
 
 </div>
 {% endblock %}
