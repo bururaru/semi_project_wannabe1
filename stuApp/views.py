@@ -10,6 +10,7 @@ from django.views import View
 import os
 from uuid import uuid4
 from django.utils import timezone
+from django.contrib.sites.models import *
 
 # Create your views here.
 
@@ -23,7 +24,7 @@ from django.utils import timezone
 
 def index(request) :
     if request.session.get('user_name') :
-        context={id: request.session['user_name']
+        context={'id': request.session['user_name']
                  }
         return render(request, 'home2.html', context)
     else :
@@ -44,10 +45,25 @@ def register(request) :
         register111 = User(username=name, password=pwd, email=email)
         register111.save()
 
+        # value_profile_img= request.FILES['profile_img']
+        # if 'profile_img' in request.FILES:
+        #     file = request.FILES['profile_img']
+        #     file_name = file._name
+        #     print('register img - ', file_name)
+        #     fp = open('%s%s' % ('stuApp/static/images/', file_name), 'wb')
+        #     for chunk in file.chunks():
+        #         fp.write(chunk)
+        #     fp.close()
+        # else:
+        #     file_name = 'default.png'
+        # print('이미지 들어오나 확인...', request.FILES)
+
         re = StuProfile.objects.get(user_name=name)
         re.bio = value_bio
         re.contact= value_contact
         re.location= value_location
+        # re.profile_img=value_profile_img
+        # print('이미지 저장 확인', re.profile_img)
         re.save()
 
     return render(request, 'page-login2.html')
@@ -55,14 +71,14 @@ def register(request) :
 def logout(request) :
     request.session['user_name'] = {}
     request.session.modified= True
-    return redirect('index')
+    return redirect('stuApp:index')
 
 def loginForm(request) :
     return render(request, 'page-login2.html')
 
 def login(request) :
     if request.method== 'GET' :
-        return redirect('index')
+        return redirect('stuApp:index')
 
     elif request.method=='POST' :
         id = request.POST['id']
@@ -80,7 +96,7 @@ def login(request) :
             return render (request, 'home2.html', context)
 
         else :
-            return redirect('index')
+            return redirect('stuApp:index')
 
 #-----------------------------------------------------------
 
@@ -97,6 +113,7 @@ def profile_list(request) :
 def profile_read2(request, id) :
     read_stu= StuProfile.objects.get(id=id)
     print('아이디체크', id)
+
     read_user= User.objects.get(username=read_stu.user_name)
     context = {'readpro': read_user,
                'readpro2' : read_stu,

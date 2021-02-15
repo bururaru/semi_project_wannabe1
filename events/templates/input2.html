@@ -1,8 +1,14 @@
 
-{% extends 'base2.html' %}
-{% block content %}
-
 {% load static %}
+{% include 'header.html' %}
+{% block content0 %}
+
+{% endblock %}
+
+
+{% include 'header2.html' %}
+
+{% block content1 %}
 <div class="container">
     <br>
     <form method="POST">
@@ -10,9 +16,18 @@
     <div class="form form-table">
         {{ form }}
         <button type="submit" class="btn btn-info right"> Submit </button>
-        <button type="button" class="btn btn-danger" id="remoBtn"> Remove </button>
     </div>
     </form>
 
 </div>
 {% endblock %}
+
+
+{% include 'footer.html' %}
+
+{% block content2 %}
+
+{% endblock %}
+
+
+{% include 'footer2.html' %}
