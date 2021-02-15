@@ -44,7 +44,14 @@ INSTALLED_APPS = [
     'common.apps.CommonConfig',
     'hello_app',
     'opencv_webapp',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.naver',
+
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -76,6 +83,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'semiProject.wsgi.application'
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+SITE_ID = 1
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
